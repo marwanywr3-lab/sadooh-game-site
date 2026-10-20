@@ -1,1 +1,3 @@
-# صادوه!\n\n[العب صادوه!](https://sadoh.marwanbarbood.com/)\n\nواجهة صادوه المنشورة.\n
+# صادوه!
+
+[العب صادوه!](https://sadoh.marwanbarbood.com/)
