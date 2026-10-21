@@ -1,5 +1,5 @@
-const PREFIX='sadooh-app-v1:'+new URL(self.registration.scope).pathname+':',CACHE=PREFIX+"sadooh-app-v1-5e4e4c7e18dd6b11",FILES=["./index.html","./manifest.webmanifest","./assets/abu-fahad.svg","./assets/alkabeer.svg","./assets/card-back.svg","./assets/card-frame.svg","./assets/game-table.svg","./assets/index-CzGELTDt.js","./assets/index-D0fnFTUA.css","./assets/logo-dark.svg","./assets/logo.svg","./assets/malqoof.svg","./assets/menu-background.svg","./assets/mokhabbes.svg","./assets/mosarref.svg","./assets/nashal.svg","./assets/sanad.svg","./icons/apple-touch-icon.png","./icons/icon-192.png","./icons/icon-512.png"];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES))));
+const PREFIX='sadooh-app-v1:'+new URL(self.registration.scope).pathname+':',CACHE=PREFIX+"sadooh-app-v1-0fae3127a32e73ea",FILES=["./index.html","./manifest.webmanifest","./assets/abu-fahad.svg","./assets/alkabeer.svg","./assets/audio/casino-LICENSE.txt","./assets/audio/flip.wav","./assets/audio/interface-LICENSE.txt","./assets/audio/jingles-LICENSE.txt","./assets/audio/pop.wav","./assets/audio/reveal.wav","./assets/audio/sources.json","./assets/audio/turn.wav","./assets/audio/victory.wav","./assets/audio/whoosh.wav","./assets/card-back.svg","./assets/card-frame.svg","./assets/game-table.svg","./assets/index-CqFpUZJ0.css","./assets/index-CrKvk1sP.js","./assets/logo-dark.svg","./assets/logo.svg","./assets/malqoof.svg","./assets/menu-background.svg","./assets/mokhabbes.svg","./assets/mosarref.svg","./assets/nashal.svg","./assets/sanad.svg","./icons/apple-touch-icon.png","./icons/icon-192.png","./icons/icon-512.png"],REQUIRED=["./index.html","./manifest.webmanifest","./assets/abu-fahad.svg","./assets/alkabeer.svg","./assets/card-back.svg","./assets/card-frame.svg","./assets/game-table.svg","./assets/index-CqFpUZJ0.css","./assets/index-CrKvk1sP.js","./assets/logo-dark.svg","./assets/logo.svg","./assets/malqoof.svg","./assets/menu-background.svg","./assets/mokhabbes.svg","./assets/mosarref.svg","./assets/nashal.svg","./assets/sanad.svg","./icons/apple-touch-icon.png","./icons/icon-192.png","./icons/icon-512.png"];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(REQUIRED))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith(PREFIX)&&key!==CACHE).map(key=>caches.delete(key))))));
 self.addEventListener('fetch',event=>{
  const request=event.request,url=new URL(request.url),scope=new URL(self.registration.scope);
@@ -9,5 +9,8 @@ self.addEventListener('fetch',event=>{
  }
  const relative='./'+url.pathname.slice(scope.pathname.length);
  if(!FILES.includes(relative))return;
- event.respondWith(caches.open(CACHE).then(async cache=>(await cache.match(request))||fetch(request)));
+ event.respondWith(caches.open(CACHE).then(async cache=>{
+  const saved=await cache.match(request);if(saved)return saved;
+  const response=await fetch(request);if(response.ok&&relative.startsWith('./assets/audio/'))void cache.put(request,response.clone()).catch(()=>{});return response;
+ }));
 });
