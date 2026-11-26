@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.aistudio.sadooh.kpqwzx",
+    "sha256_cert_fingerprints": [
+      "الصق_هنا_كود_SHA256_اللي_نسخته_من_قوقل_بلاي"
+    ]
+  }
+}]
